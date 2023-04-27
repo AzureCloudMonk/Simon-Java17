@@ -39,7 +39,7 @@ public final class Student {
     private double gpa;
     private Set<String> courses = new HashSet<>();
 
-    public Builder name(String name) {
+    public Builder name(Builder this, String name) {
       this.name = name;
       return this;
     }

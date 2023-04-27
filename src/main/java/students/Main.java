@@ -20,11 +20,17 @@ class SmartStudentCriterion implements CriterionOfStudent {
   }
 }
 
-
 class EnthusiasticStudentCriterion implements CriterionOfStudent {
   @Override
   public boolean test(Student s) {
     return s.getCourses().size() > 3;
+  }
+}
+
+class FirstHalfNameStudentCriterion implements CriterionOfStudent {
+  @Override
+  public boolean test(Student s) {
+    return s.getName().charAt(0) <= 'M';
   }
 }
 
@@ -53,8 +59,12 @@ public class Main {
 //    System.out.println("---------------------");
 //  }
 //
+
+  // argument types constrain the *caller* and callers benefit from generality
+  // return type is a constraint on the *implementation* while
+  //  callers benefit (potentially) from specificity
   public static List<Student> getByCriterion(
-      List<Student> students, CriterionOfStudent crit) {
+      Iterable<Student> students, CriterionOfStudent crit) {
     List<Student> res = new ArrayList<>();
     for (Student s : students) {
       if (crit.test(s)) {
@@ -65,6 +75,9 @@ public class Main {
   }
 
   public static void main(String[] args) {
+//    List<List<String>> lls = null;
+//    lls.get(0)
+
     List<Student> roster = List.of(
         Student.of("Fred", 3.6, "Math", "Physics"),
         Student.of("Jim", 2.2, "Journalism"),
@@ -91,5 +104,36 @@ public class Main {
     System.out.println("enthusiastic:"); // taking more than n classes
 //    showAllEnthusiastic(roster, 3);
     showAll(getByCriterion(roster, new EnthusiasticStudentCriterion()));
+
+    System.out.println("first half of alphabet names:");
+    showAll(getByCriterion(roster, new CriterionOfStudent() {
+      @Override
+      public boolean test(Student s) {
+        return s.getName().charAt(0) <= 'M';
+      }
+    }));
+
+//    CriterionOfStudent cs = new CriterionOfStudent() {
+//      @Override
+//      public boolean test(Student s) {
+//        return s.getName().charAt(0) <= 'M';
+//      }
+//    };
+//    System.out.println(cs.getClass().getName());
+
+    // ??? demands an OBJECT (expression)
+    // that object must implement an INTERFACE
+    // and that interface MUST declare EXACTLY ONE abstract method
+    // further, we must ONLY be interested in implementing that one method
+//    showAll(getByCriterion(roster, ???));
+    System.out.println("second half:");
+    showAll(getByCriterion(roster,
+//        (Student s) -> { return s.getName().charAt(0) > 'M'; }
+//        (@NotNull var s) -> { return s.getName().charAt(0) > 'M'; }
+//        (s) -> { return s.getName().charAt(0) > 'M'; }
+//        s -> { return s.getName().charAt(0) > 'M'; }
+        s -> s.getName().charAt(0) > 'M'
+    ));
+
   }
 }
