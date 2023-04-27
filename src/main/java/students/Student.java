@@ -39,6 +39,8 @@ public final class Student {
     private double gpa;
     private Set<String> courses = new HashSet<>();
 
+    private Builder(){}
+
     public Builder name(Builder this, String name) {
       this.name = name;
       return this;
@@ -73,6 +75,14 @@ public final class Student {
 
   public String getName() {
     return name;
+  }
+
+  public Student withName(String name) {
+    // constructor validates, don't need to do this here.
+//    if (!isValid(name, this.gpa, this.courses)) {
+//      throw new IllegalArgumentException("Bad name for student");
+//    }
+    return new Student(name, this.gpa, this.courses);
   }
 
   // can the caller do: s1.getCourses().add(xxx) ??
