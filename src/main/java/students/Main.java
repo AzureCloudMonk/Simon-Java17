@@ -59,6 +59,9 @@ public class Main {
 //    System.out.println("---------------------");
 //  }
 
+  // pattern of *storing* a behavioral object for use in
+  // augmenting some other behavior (distinct from passing it
+  // as an argument, is called (in OO patterns) "strategy"
 //  private static double threshold = 3.0;
 //
 //  public static void setThreshold(double t) {
@@ -80,6 +83,11 @@ public class Main {
   // argument types constrain the *caller* and callers benefit from generality
   // return type is a constraint on the *implementation* while
   //  callers benefit (potentially) from specificity
+  // If we pass a "behavior" as an argument to a function
+  // OO patterns call this - "command" pattern
+  // Functional programmers call this "higher order function"
+  // note "higher order function" is not limited to this situation,
+  // it also refers to a function returning a function.
   public static <E> List<E> getByCriterion(
       Iterable<E> students, Predicate<E> crit) {
     List<E> res = new ArrayList<>();
